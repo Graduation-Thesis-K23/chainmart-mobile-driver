@@ -48,8 +48,7 @@
     "*.{js,css,md,json}": "prettier --write --no-error-on-unmatched-pattern",
     "*.{ts,tsx}": [
       "npm run prettier",
-      "npm run eslint",
-      "git add"
+      "npm run eslint"
     ]
   }
 }
