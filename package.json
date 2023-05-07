@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "prepare": "husky install",
-    "lint": ""
+    "prettier": "npx prettier -w \"**/*.tsx\" \"**/*.ts\" --no-error-on-unmatched-pattern --loglevel error",
+    "eslint": "eslint --cache --fix"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
@@ -18,7 +19,6 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.7",
     "react-native-safe-area-context": "^4.5.2",
-    "react-native-screens": "^3.20.0",
     "react-native-web": "~0.18.10"
   },
   "devDependencies": {
@@ -45,7 +45,11 @@
   },
   "private": true,
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,css,md,json}": "prettier --write --no-error-on-unmatched-pattern",
+    "*.{ts,tsx}": [
+      "npm run prettier",
+      "npm run eslint",
+      "git add"
+    ]
   }
 }
