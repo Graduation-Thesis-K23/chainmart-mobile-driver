@@ -1,24 +1,30 @@
 import React from "react";
-import { Text, View, StatusBar, StyleSheet } from "react-native";
+import { StatusBar, SafeAreaView, StyleSheet } from "react-native";
+import { Provider } from "react-redux";
+
+import { store } from "./redux";
+import Navigator from "~screens/Navigator";
 
 const styles = StyleSheet.create({
-  container: {
+  statusBar: {
+    flex: 0,
+    backgroundColor: "#000",
+  },
+  content: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#ECF0F1",
   },
 });
 
-const MyStack = () => {
+const App = () => {
   return (
-    <>
-      <View style={styles.container}>
-        <Text>a</Text>
-        <Text>a</Text>
-        <StatusBar animated={true} barStyle="dark-content" />
-      </View>
-    </>
+    <Provider store={store}>
+      <SafeAreaView style={styles.statusBar} />
+      <SafeAreaView style={styles.content}>
+        <StatusBar barStyle="light-content" />
+        <Navigator />
+      </SafeAreaView>
+    </Provider>
   );
 };
 
-export default MyStack;
+export default App;

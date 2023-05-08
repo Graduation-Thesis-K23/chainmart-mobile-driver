@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
+    "AppEntry": "./src/index.tsx",
     "splash": {
       "image": "./assets/logo.png",
       "resizeMode": "contain",
@@ -19,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "site.chainmart.driver"
     },
     "web": {
       "favicon": "./assets/favicon.png"
