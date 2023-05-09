@@ -10,7 +10,7 @@ module.exports = function (api) {
           extensions: [".ios.tsx", ".android.tsx", ".ts", ".tsx", ".json"],
           alias: {
             tests: ["./tests/"],
-            "~": "./src",
+            "~/": "./src",
           },
         },
       ],

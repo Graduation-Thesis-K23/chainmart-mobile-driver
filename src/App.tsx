@@ -3,7 +3,7 @@ import { StatusBar, SafeAreaView, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 
 import { store } from "./redux";
-import Navigator from "~screens/Navigator";
+import Navigator from "./screens/Navigator";
 
 const styles = StyleSheet.create({
   statusBar: {

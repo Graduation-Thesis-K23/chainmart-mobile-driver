@@ -1,17 +1,16 @@
 import React from "react";
 
-import Login from "./Login";
-import Home from "./Home";
+import LoginScreen from "./Login";
+import HomeScreen from "./Home";
 
-import { useAppSelector } from "~redux";
-import { ASYNC_STATUS } from "~redux/constants";
+import { useAppSelector, ASYNC_STATUS } from "../redux";
 
 const Navigator = () => {
   const user = useAppSelector((state) => state.user);
 
-  if (user.status === ASYNC_STATUS.IDLE) return <Login />;
+  if (user.status === ASYNC_STATUS.IDLE) return <LoginScreen />;
 
-  return <Home />;
+  return <HomeScreen />;
 };
 
 export default Navigator;
