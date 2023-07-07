@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import withAuth from "../../hocs/withAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,4 +15,4 @@ const Setting = () => {
   );
 };
 
-export default withAuth(Setting);
+export default Setting;
