@@ -1,9 +1,10 @@
 import React from "react";
 import { StatusBar, SafeAreaView, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
+import { loadAsync } from "expo-font";
 
 import { store } from "./redux";
-import Navigator from "./screens/Navigator";
+import Navigation from "./components/Navigation";
 
 const styles = StyleSheet.create({
   statusBar: {
@@ -16,12 +17,30 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
+  const [isReady, setIsReady] = React.useState(false);
+
+  React.useEffect(() => {
+    const init = async () => {
+      await loadAsync({
+        Ionicons: require("./assets/fonts/Ionicons.ttf"),
+      });
+
+      setIsReady(true);
+    };
+
+    init();
+  }, []);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <SafeAreaView style={styles.statusBar} />
       <SafeAreaView style={styles.content}>
         <StatusBar barStyle="light-content" />
-        <Navigator />
+        <Navigation />
       </SafeAreaView>
     </Provider>
   );

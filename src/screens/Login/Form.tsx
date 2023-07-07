@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { TextInput, View, StyleSheet, Pressable, Text } from "react-native";
 
 import { primaryColor } from "../../colors";
+import { signIn, useAppDispatch } from "../../redux";
 
 const styles = StyleSheet.create({
   container: {
@@ -44,6 +45,8 @@ const Form = () => {
   const usernameRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
+  const dispatch = useAppDispatch();
+
   const handleFocusInput = () => {
     setZoom(true);
   };
@@ -52,8 +55,24 @@ const Form = () => {
     setZoom(false);
   };
 
-  const handleSubmit = () => {
-    setError("username " + username + Date.now());
+  const handleSubmit = async () => {
+    if (!username) {
+      setError("Username is required");
+      usernameRef.current?.focus();
+      return;
+    }
+    if (!password) {
+      setError("Password is required");
+      passwordRef.current?.focus();
+      return;
+    }
+
+    const payload = { username, password };
+    const result = await dispatch(signIn(payload));
+
+    if (signIn.fulfilled.match(result)) {
+      setError("");
+    }
   };
 
   return (
