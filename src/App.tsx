@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  StatusBar,
-  SafeAreaView,
-  StyleSheet,
-  Button,
-  Text,
-} from "react-native";
+import { StatusBar, SafeAreaView, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import { loadAsync } from "expo-font";
 

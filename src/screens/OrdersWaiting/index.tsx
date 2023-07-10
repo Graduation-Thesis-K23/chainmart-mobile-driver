@@ -16,6 +16,7 @@ import {
 } from "../../redux";
 import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
+import withAuth from "../../hocs/withAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -157,4 +158,4 @@ const OrdersWaiting = () => {
   );
 };
 
-export default OrdersWaiting;
+export default withAuth(OrdersWaiting);

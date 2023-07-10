@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { Text } from "react-native";
 import { Drawer } from "react-native-drawer-layout";
 import { hideDrawer, showDrawer, useAppSelector } from "../../redux";
+import Setting from "../../screens/Setting";
 
 const DrawerSetting: FC<{
   children: React.ReactNode;
@@ -13,9 +13,7 @@ const DrawerSetting: FC<{
       open={drawer}
       onOpen={showDrawer}
       onClose={hideDrawer}
-      renderDrawerContent={() => {
-        return <Text>Drawer content</Text>;
-      }}
+      renderDrawerContent={() => <Setting />}
       drawerPosition="right"
     >
       {children}

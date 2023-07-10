@@ -17,7 +17,6 @@ import {
   useAppSelector,
 } from "../../redux";
 import Indicator from "../../components/common/Indicator";
-import OrdersWaiting from "../OrdersWaiting";
 
 const ScreenHeight = Dimensions.get("window").height;
 const ScreenWidth = Dimensions.get("window").width;
@@ -48,10 +47,6 @@ const Login = () => {
 
   if (user.status === ASYNC_STATUS.LOADING) {
     return <Indicator />;
-  }
-
-  if (user.status === ASYNC_STATUS.SUCCEED) {
-    return <OrdersWaiting />;
   }
 
   return (

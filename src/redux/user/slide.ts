@@ -56,6 +56,10 @@ export const userSlide = createSlice({
       state.status = ASYNC_STATUS.FAILED;
       state.message = action.payload as string;
     });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.data = {} as unknown as User;
+      state.status = ASYNC_STATUS.IDLE;
+    });
   },
 });
 
@@ -110,5 +114,9 @@ export const checkToken = createAsyncThunk(
     return thunkAPI.fulfillWithValue(response);
   }
 );
+
+export const logout = createAsyncThunk("user/logout", async () => {
+  await AsyncStorage.removeItem("token");
+});
 
 export default userSlide.reducer;

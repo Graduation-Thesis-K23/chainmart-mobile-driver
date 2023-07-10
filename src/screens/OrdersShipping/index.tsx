@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+
 import {
   ASYNC_STATUS,
   cancelOrder,
@@ -18,7 +20,7 @@ import {
 } from "../../redux";
 import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
-import Icon from "react-native-vector-icons/Ionicons";
+import withAuth from "../../hocs/withAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -326,4 +328,4 @@ const OrdersShipping = () => {
   );
 };
 
-export default OrdersShipping;
+export default withAuth(OrdersShipping);

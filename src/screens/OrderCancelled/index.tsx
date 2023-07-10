@@ -8,6 +8,7 @@ import {
 } from "../../redux";
 import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
+import withAuth from "../../hocs/withAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -128,4 +129,4 @@ const OrdersCancelled = () => {
   );
 };
 
-export default OrdersCancelled;
+export default withAuth(OrdersCancelled);
