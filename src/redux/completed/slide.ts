@@ -28,7 +28,7 @@ export const completedOrders = createSlice({
     });
     builder.addCase(fetchCompletedOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data = action.payload;
+      state.data.push(...action.payload);
     });
     builder.addCase(fetchCompletedOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -38,10 +38,17 @@ export const completedOrders = createSlice({
 
 export const fetchCompletedOrders = createAsyncThunk(
   "orders/fetchCompletedOrders",
-  async (_, thunkApi) => {
+  async (page: number, thunkApi) => {
+    console.log("fetchCompletedOrders", page);
+    const newOrders: OrderCompletedType[] = OrdersCompleted.map((order) => ({
+      ...order,
+      id: Math.random().toString(36),
+      shipped_date: Date.now(),
+    }));
+
     const response: OrderCompletedType[] | ErrorPayload = await new Promise(
       (resolve) => {
-        resolve(OrdersCompleted);
+        resolve(newOrders);
       }
     );
 

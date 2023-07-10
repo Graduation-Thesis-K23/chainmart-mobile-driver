@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../constants";
-import { ErrorPayload } from "../../shared";
+import { ErrorPayload, SuccessPayload } from "../../shared";
 import OrdersShipping from "../../mocks/shipping";
 import { OrderType } from "../waiting";
 
@@ -33,15 +33,43 @@ export const shippingOrders = createSlice({
     builder.addCase(fetchShippingOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
     });
+    builder.addCase(cancelOrder.pending, (state) => {
+      state.status = ASYNC_STATUS.LOADING;
+    });
+    builder.addCase(cancelOrder.fulfilled, (state, action) => {
+      state.status = ASYNC_STATUS.SUCCEED;
+      state.data = state.data.filter((order) => order.id !== action.payload);
+    });
+    builder.addCase(cancelOrder.rejected, (state) => {
+      state.status = ASYNC_STATUS.FAILED;
+    });
+    builder.addCase(completedOrder.pending, (state) => {
+      state.status = ASYNC_STATUS.LOADING;
+    });
+    builder.addCase(completedOrder.fulfilled, (state, action) => {
+      state.status = ASYNC_STATUS.SUCCEED;
+      state.data = state.data.filter((order) => order.id !== action.payload);
+    });
+    builder.addCase(completedOrder.rejected, (state) => {
+      state.status = ASYNC_STATUS.FAILED;
+    });
   },
 });
 
 export const fetchShippingOrders = createAsyncThunk(
   "orders/fetchShippingOrders",
-  async (_, thunkApi) => {
+  async (page: number, thunkApi) => {
+    console.log("fetchShippingOrders", page);
+
+    const newOrders = OrdersShipping.map((order) => ({
+      ...order,
+      id: Math.random().toString(36),
+      shipped_date: Date.now(),
+    }));
+
     const response: OrderShippingType[] | ErrorPayload = await new Promise(
       (resolve) => {
-        resolve(OrdersShipping);
+        resolve(newOrders);
       }
     );
 
@@ -50,6 +78,46 @@ export const fetchShippingOrders = createAsyncThunk(
     }
 
     return thunkApi.fulfillWithValue(response);
+  }
+);
+
+export const cancelOrder = createAsyncThunk(
+  "orders/cancelOrders",
+  async (id: string, thunkApi) => {
+    console.log("cancelOrders", id);
+
+    const response: SuccessPayload | ErrorPayload = await new Promise(
+      (resolve) => {
+        resolve({
+          status: "success",
+        });
+      }
+    );
+
+    if ("message" in response) {
+      return thunkApi.rejectWithValue(response.message);
+    }
+
+    return thunkApi.fulfillWithValue(id);
+  }
+);
+
+export const completedOrder = createAsyncThunk(
+  "orders/completedOrders",
+  async (id: string, thunkApi) => {
+    const response: SuccessPayload | ErrorPayload = await new Promise(
+      (resolve) => {
+        resolve({
+          status: "success",
+        });
+      }
+    );
+
+    if ("message" in response) {
+      return thunkApi.rejectWithValue(response.message);
+    }
+
+    return thunkApi.fulfillWithValue(id);
   }
 );
 

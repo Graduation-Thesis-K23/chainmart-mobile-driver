@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "prepare": "husky install",
-    "prettier": "npx prettier -w \"**/*.tsx\" \"**/*.ts\" --no-error-on-unmatched-pattern --loglevel error",
+    "prettier": "npx prettier -w \"**/*.tsx\" \"**/*.ts\" --no-error-on-unmatched-pattern",
     "eslint": "eslint --cache --fix"
   },
   "dependencies": {

@@ -27,7 +27,7 @@ export const cancelledOrders = createSlice({
     });
     builder.addCase(fetchCancelledOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data = action.payload;
+      state.data.push(...action.payload);
     });
     builder.addCase(fetchCancelledOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -37,10 +37,18 @@ export const cancelledOrders = createSlice({
 
 export const fetchCancelledOrders = createAsyncThunk(
   "orders/fetchCancelledOrders",
-  async (_, thunkApi) => {
+  async (page: number, thunkApi) => {
+    console.log("fetchCancelledOrders", page);
+
+    const newOrders: OrderCancelledType[] = OrdersCancelled.map((order) => ({
+      ...order,
+      id: Math.random().toString(36),
+      shipped_date: Date.now(),
+    }));
+
     const response: OrderCancelledType[] | ErrorPayload = await new Promise(
       (resolve) => {
-        resolve(OrdersCancelled);
+        resolve(newOrders);
       }
     );
 

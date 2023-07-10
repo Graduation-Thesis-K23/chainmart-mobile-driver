@@ -2,14 +2,14 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import OrdersWaiting from "../../screens/OrdersWaiting";
 import OrdersShipping from "../../screens/OrdersShipping";
 import OrdersCompleted from "../../screens/OrderCompleted";
 import DrawerSetting from "../../components/DrawerSetting";
 import OrderCancelled from "../../screens/OrderCancelled";
-import { showDrawer, useAppDispatch } from "../../redux";
+import { showDrawer, useAppDispatch, useAppSelector } from "../../redux";
 
 const Tab = createBottomTabNavigator();
 
@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
+  const waitingLength = useAppSelector((state) => state.waiting.data.length);
+  const shippingLength = useAppSelector((state) => state.shipping.data.length);
 
   const handleOpenDrawer = () => {
     dispatch(showDrawer());
@@ -82,7 +84,7 @@ const Navigation = () => {
             name="Waiting"
             component={OrdersWaiting}
             options={{
-              tabBarBadge: 1,
+              tabBarBadge: waitingLength,
               tabBarBadgeStyle: styles.tabBarBadgeStyle,
               headerTitleStyle: {
                 color: "#fff",
@@ -92,19 +94,17 @@ const Navigation = () => {
               },
               headerTitleAlign: "left",
               headerRight: () => (
-                <TouchableHighlight onPress={handleOpenDrawer}>
-                  <View>
-                    <Icon
-                      name="ios-menu"
-                      size={30}
-                      color="#fff"
-                      onPress={handleOpenDrawer}
-                      style={{
-                        marginRight: 10,
-                      }}
-                    />
-                  </View>
-                </TouchableHighlight>
+                <TouchableOpacity onPress={handleOpenDrawer}>
+                  <Icon
+                    name="ios-menu"
+                    size={30}
+                    color="#fff"
+                    onPress={handleOpenDrawer}
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               ),
             }}
           />
@@ -112,7 +112,7 @@ const Navigation = () => {
             name="Shipping"
             component={OrdersShipping}
             options={{
-              tabBarBadge: 1,
+              tabBarBadge: shippingLength,
               tabBarBadgeStyle: styles.tabBarBadgeStyle,
               headerTitleStyle: {
                 color: "#fff",
@@ -122,19 +122,17 @@ const Navigation = () => {
                 backgroundColor: "#2da85c",
               },
               headerRight: () => (
-                <TouchableHighlight onPress={handleOpenDrawer}>
-                  <View>
-                    <Icon
-                      name="ios-menu"
-                      size={30}
-                      color="#fff"
-                      onPress={handleOpenDrawer}
-                      style={{
-                        marginRight: 10,
-                      }}
-                    />
-                  </View>
-                </TouchableHighlight>
+                <TouchableOpacity onPress={handleOpenDrawer}>
+                  <Icon
+                    name="ios-menu"
+                    size={30}
+                    color="#fff"
+                    onPress={handleOpenDrawer}
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               ),
             }}
           />
@@ -150,19 +148,17 @@ const Navigation = () => {
                 backgroundColor: "#2da85c",
               },
               headerRight: () => (
-                <TouchableHighlight onPress={handleOpenDrawer}>
-                  <View>
-                    <Icon
-                      name="ios-menu"
-                      size={30}
-                      color="#fff"
-                      onPress={handleOpenDrawer}
-                      style={{
-                        marginRight: 10,
-                      }}
-                    />
-                  </View>
-                </TouchableHighlight>
+                <TouchableOpacity onPress={handleOpenDrawer}>
+                  <Icon
+                    name="ios-menu"
+                    size={30}
+                    color="#fff"
+                    onPress={handleOpenDrawer}
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               ),
             }}
           />
@@ -178,19 +174,17 @@ const Navigation = () => {
               },
               headerTitleAlign: "left",
               headerRight: () => (
-                <TouchableHighlight onPress={handleOpenDrawer}>
-                  <View>
-                    <Icon
-                      name="ios-menu"
-                      size={30}
-                      color="#fff"
-                      onPress={handleOpenDrawer}
-                      style={{
-                        marginRight: 10,
-                      }}
-                    />
-                  </View>
-                </TouchableHighlight>
+                <TouchableOpacity onPress={handleOpenDrawer}>
+                  <Icon
+                    name="ios-menu"
+                    size={30}
+                    color="#fff"
+                    onPress={handleOpenDrawer}
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               ),
             }}
           />
