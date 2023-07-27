@@ -68,7 +68,7 @@ const OrdersCancelled = () => {
         0
       )
     ),
-    shipped_date: new Date(item.shipped_date).toLocaleString("vi-VN", {
+    cancelled_date: new Date(item.cancelled_date).toLocaleString("vi-VN", {
       hour12: false,
       day: "2-digit",
       month: "2-digit",
@@ -98,7 +98,7 @@ const OrdersCancelled = () => {
           <View style={styles.item}>
             <View style={styles.header}>
               <Text>Cancelled At:</Text>
-              <Text>{item.shipped_date}</Text>
+              <Text>{item.cancelled_date}</Text>
             </View>
             <View style={styles.header}>
               <Text>Order Status:</Text>

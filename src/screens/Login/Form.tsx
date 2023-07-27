@@ -1,8 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TextInput, View, StyleSheet, Pressable, Text } from "react-native";
 
 import { primaryColor } from "../../colors";
-import { signIn, useAppDispatch } from "../../redux";
+import {
+  ASYNC_STATUS,
+  checkToken,
+  setMessage,
+  signIn,
+  useAppDispatch,
+  useAppSelector,
+} from "../../redux";
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +40,7 @@ const styles = StyleSheet.create({
   },
   error: {
     color: "red",
-    height: 14,
+    height: 20,
   },
 });
 
@@ -41,11 +48,11 @@ const Form = () => {
   const [zoom, setZoom] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const usernameRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
   const dispatch = useAppDispatch();
+  const { message: error, status } = useAppSelector((state) => state.user);
 
   const handleFocusInput = () => {
     setZoom(true);
@@ -57,23 +64,30 @@ const Form = () => {
 
   const handleSubmit = async () => {
     if (!username) {
-      setError("Username is required");
+      setMessage("Username is required");
       usernameRef.current?.focus();
       return;
     }
     if (!password) {
-      setError("Password is required");
+      setMessage("Password is required");
       passwordRef.current?.focus();
       return;
     }
 
-    const payload = { username, password };
+    const payload = { phone: username, password };
+
     const result = await dispatch(signIn(payload));
 
     if (signIn.fulfilled.match(result)) {
-      setError("");
+      console.log("Login success");
     }
   };
+
+  useEffect(() => {
+    if (status === ASYNC_STATUS.IDLE) {
+      dispatch(checkToken());
+    }
+  }, []);
 
   return (
     <View style={{ ...styles.container, flex: zoom ? 1 : undefined }} focusable>

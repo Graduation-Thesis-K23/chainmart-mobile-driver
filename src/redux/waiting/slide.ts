@@ -6,8 +6,9 @@ import {
   OrderStatus,
   Payment,
 } from "../../shared";
-import OrdersWaiting from "../../mocks/waiting";
+
 import { OrderShippingType } from "../shipping";
+import instance from "../../services/axios-instance";
 
 export interface Address {
   phone: string;
@@ -22,7 +23,7 @@ export interface Address {
 export interface OrderType {
   id: string;
   address: Address;
-  approved_date: number;
+  packaged_date: number;
   status: OrderStatus;
   payment: Payment;
   products: OrderProductType[];
@@ -70,15 +71,13 @@ export const waitingOrders = createSlice({
 export const fetchWaitingOrders = createAsyncThunk(
   "orders/fetchWaitingOrders",
   async (page: number, thunkApi) => {
-    const newOrders: OrderType[] = OrdersWaiting.map((order) => ({
-      ...order,
-      id: Math.random().toString(36),
-    }));
+    const queries = new URLSearchParams({
+      status: OrderStatus.Packaged,
+      page: page.toString(),
+    }).toString();
 
-    const response: OrderType[] | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve(newOrders);
-      }
+    const response: OrderType[] | ErrorPayload = await instance.get(
+      "/api/orders/shipper?" + queries
     );
 
     if ("message" in response) {
@@ -92,21 +91,7 @@ export const fetchWaitingOrders = createAsyncThunk(
 export const confirmOrder = createAsyncThunk(
   "orders/confirmOrder",
   async (id: string, thunkApi) => {
-    console.log("confirmOrder", id);
-    const order = OrdersWaiting.find((order) => order.id === id);
-
-    if (!order) {
-      return thunkApi.rejectWithValue("Order not found");
-    }
-
-    const response: OrderShippingType | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve({
-          ...order,
-          shipped_date: Date.now(),
-        });
-      }
-    );
+    const response: OrderShippingType | ErrorPayload = {} as OrderShippingType;
 
     if ("message" in response) {
       return thunkApi.rejectWithValue(response);

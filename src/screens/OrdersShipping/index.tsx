@@ -107,7 +107,7 @@ const OrdersShipping = () => {
       price: convertPrice(product.price),
       quantity: product.quantity,
     })),
-    beginAt: new Date(item.approved_date).toLocaleString("vi-VN", {
+    started_date: new Date(item.started_date).toLocaleString("vi-VN", {
       hour12: false,
       day: "2-digit",
       month: "2-digit",
@@ -161,11 +161,11 @@ const OrdersShipping = () => {
           <View style={styles.item}>
             <View style={styles.header}>
               <Text>Begin Ship At:</Text>
-              <Text>{item.beginAt}</Text>
+              <Text>{item.started_date}</Text>
             </View>
             <View style={styles.header}>
               <Text>Order Status:</Text>
-              <Text>{item.status}</Text>
+              <Text>SHIPPING</Text>
             </View>
             <View style={styles.address}>
               <Text>Order Address:</Text>

@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../constants";
-import { ErrorPayload } from "../../shared";
-import OrdersCancelled from "../../mocks/cancelled";
+import { ErrorPayload, OrderStatus } from "../../shared";
 import { OrderType } from "../waiting";
+import instance from "../../services/axios-instance";
 
 export interface OrderCancelledType extends OrderType {
-  shipped_date: number;
+  cancelled_date: number;
 }
 export interface CancelledState {
   data: OrderCancelledType[];
@@ -38,18 +38,13 @@ export const cancelledOrders = createSlice({
 export const fetchCancelledOrders = createAsyncThunk(
   "orders/fetchCancelledOrders",
   async (page: number, thunkApi) => {
-    console.log("fetchCancelledOrders", page);
+    const queries = new URLSearchParams({
+      status: OrderStatus.Cancelled,
+      page: page.toString(),
+    }).toString();
 
-    const newOrders: OrderCancelledType[] = OrdersCancelled.map((order) => ({
-      ...order,
-      id: Math.random().toString(36),
-      shipped_date: Date.now(),
-    }));
-
-    const response: OrderCancelledType[] | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve(newOrders);
-      }
+    const response: OrderCancelledType[] | ErrorPayload = await instance.get(
+      "/api/orders/shipper?" + queries
     );
 
     if ("message" in response) {

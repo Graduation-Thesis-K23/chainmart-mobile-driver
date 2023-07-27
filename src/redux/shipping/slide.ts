@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ASYNC_STATUS } from "../constants";
 import { ErrorPayload, SuccessPayload } from "../../shared";
-import OrdersShipping from "../../mocks/shipping";
 import { OrderType } from "../waiting";
+import instance from "../../services/axios-instance";
+import { OrderStatus } from "../../shared";
 
 export interface OrderShippingType extends OrderType {
-  shipped_date: number;
+  started_date: number;
 }
 
 export interface ShippingState {
@@ -59,18 +60,13 @@ export const shippingOrders = createSlice({
 export const fetchShippingOrders = createAsyncThunk(
   "orders/fetchShippingOrders",
   async (page: number, thunkApi) => {
-    console.log("fetchShippingOrders", page);
+    const queries = new URLSearchParams({
+      status: OrderStatus.Started,
+      page: page.toString(),
+    }).toString();
 
-    const newOrders = OrdersShipping.map((order) => ({
-      ...order,
-      id: Math.random().toString(36),
-      shipped_date: Date.now(),
-    }));
-
-    const response: OrderShippingType[] | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve(newOrders);
-      }
+    const response: OrderShippingType[] | ErrorPayload = await instance.get(
+      "/api/orders/shipper?" + queries
     );
 
     if ("message" in response) {

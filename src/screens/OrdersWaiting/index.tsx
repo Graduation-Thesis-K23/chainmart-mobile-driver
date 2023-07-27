@@ -76,7 +76,7 @@ const OrdersWaiting = () => {
         0
       )
     ),
-    sendAt: new Date(item.approved_date).toLocaleString("vi-VN", {
+    packaged_date: new Date(item.packaged_date).toLocaleString("vi-VN", {
       hour12: false,
       day: "2-digit",
       month: "2-digit",
@@ -116,11 +116,11 @@ const OrdersWaiting = () => {
           <View style={styles.item}>
             <View style={styles.header}>
               <Text>Received At:</Text>
-              <Text>{item.sendAt}</Text>
+              <Text>{item.packaged_date}</Text>
             </View>
             <View style={styles.header}>
               <Text>Order Status:</Text>
-              <Text>{item.status}</Text>
+              <Text>WAITING</Text>
             </View>
             <View style={styles.address}>
               <Text>Order Address:</Text>

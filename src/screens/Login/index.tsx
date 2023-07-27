@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Dimensions,
   Keyboard,
@@ -10,12 +10,7 @@ import {
 import logo from "../../assets/logo.png";
 
 import Form from "./Form";
-import {
-  ASYNC_STATUS,
-  checkToken,
-  useAppDispatch,
-  useAppSelector,
-} from "../../redux";
+import { ASYNC_STATUS, useAppSelector } from "../../redux";
 import Indicator from "../../components/common/Indicator";
 
 const ScreenHeight = Dimensions.get("window").height;
@@ -37,13 +32,6 @@ const styles = StyleSheet.create({
 
 const Login = () => {
   const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (user.status === ASYNC_STATUS.IDLE) {
-      dispatch(checkToken());
-    }
-  }, []);
 
   if (user.status === ASYNC_STATUS.LOADING) {
     return <Indicator />;

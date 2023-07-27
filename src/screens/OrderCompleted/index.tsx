@@ -68,7 +68,7 @@ const OrdersCompleted = () => {
         0
       )
     ),
-    shipped_date: new Date(item.approved_date).toLocaleString("vi-VN", {
+    completed_date: new Date(item.completed_date).toLocaleString("vi-VN", {
       hour12: false,
       day: "2-digit",
       month: "2-digit",
@@ -98,7 +98,7 @@ const OrdersCompleted = () => {
           <View style={styles.item}>
             <View style={styles.header}>
               <Text>Shipped At:</Text>
-              <Text>{item.shipped_date}</Text>
+              <Text>{item.completed_date}</Text>
             </View>
             <View style={styles.header}>
               <Text>Order Status:</Text>
