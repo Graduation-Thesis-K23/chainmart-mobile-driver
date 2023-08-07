@@ -27,7 +27,12 @@ export const cancelledOrders = createSlice({
     });
     builder.addCase(fetchCancelledOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data.push(...action.payload);
+      // check id order is exist
+      const newOrders = action.payload.filter((order) => {
+        return !state.data.some((item) => item.id === order.id);
+      });
+
+      state.data = [...state.data, ...newOrders];
     });
     builder.addCase(fetchCancelledOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;

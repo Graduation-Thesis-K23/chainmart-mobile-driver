@@ -7,7 +7,7 @@ import {
   View,
   Image,
 } from "react-native";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/icon.png";
 
 import Form from "./Form";
 import { ASYNC_STATUS, useAppSelector } from "../../redux";

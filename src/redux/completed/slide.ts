@@ -5,7 +5,7 @@ import { OrderType } from "../waiting";
 import instance from "../../services/axios-instance";
 
 export interface OrderCompletedType extends OrderType {
-  completed_date: number;
+  completed_date: Date;
 }
 
 export interface CompletedState {
@@ -28,7 +28,12 @@ export const completedOrders = createSlice({
     });
     builder.addCase(fetchCompletedOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data.push(...action.payload);
+      // check id order is exist
+      const newOrders = action.payload.filter((order) => {
+        return !state.data.some((item) => item.id === order.id);
+      });
+
+      state.data = [...state.data, ...newOrders];
     });
     builder.addCase(fetchCompletedOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;

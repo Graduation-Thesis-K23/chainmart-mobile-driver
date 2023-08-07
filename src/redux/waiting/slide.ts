@@ -7,7 +7,6 @@ import {
   Payment,
 } from "../../shared";
 
-import { OrderShippingType } from "../shipping";
 import instance from "../../services/axios-instance";
 
 export interface Address {
@@ -23,10 +22,10 @@ export interface Address {
 export interface OrderType {
   id: string;
   address: Address;
-  packaged_date: number;
+  packaged_date: Date;
   status: OrderStatus;
   payment: Payment;
-  products: OrderProductType[];
+  order_details: OrderProductType[];
 }
 
 export interface WaitingState {
@@ -49,7 +48,12 @@ export const waitingOrders = createSlice({
     });
     builder.addCase(fetchWaitingOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data.push(...action.payload);
+
+      const newOrders = action.payload.filter((order) => {
+        return !state.data.some((item) => item.id === order.id);
+      });
+
+      state.data = [...state.data, ...newOrders];
     });
     builder.addCase(fetchWaitingOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -91,7 +95,9 @@ export const fetchWaitingOrders = createAsyncThunk(
 export const confirmOrder = createAsyncThunk(
   "orders/confirmOrder",
   async (id: string, thunkApi) => {
-    const response: OrderShippingType | ErrorPayload = {} as OrderShippingType;
+    const response: OrderType | ErrorPayload = await instance.patch(
+      "/api/orders/" + id + "/shipper/started"
+    );
 
     if ("message" in response) {
       return thunkApi.rejectWithValue(response);

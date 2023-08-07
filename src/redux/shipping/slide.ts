@@ -29,7 +29,12 @@ export const shippingOrders = createSlice({
     });
     builder.addCase(fetchShippingOrders.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
-      state.data = action.payload;
+      // check id order is exist
+      const newOrders = action.payload.filter((order) => {
+        return !state.data.some((item) => item.id === order.id);
+      });
+
+      state.data = [...state.data, ...newOrders];
     });
     builder.addCase(fetchShippingOrders.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -80,14 +85,8 @@ export const fetchShippingOrders = createAsyncThunk(
 export const cancelOrder = createAsyncThunk(
   "orders/cancelOrders",
   async (id: string, thunkApi) => {
-    console.log("cancelOrders", id);
-
-    const response: SuccessPayload | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve({
-          status: "success",
-        });
-      }
+    const response: SuccessPayload | ErrorPayload = await instance.patch(
+      `/api/orders/${id}/shipper/cancelled`
     );
 
     if ("message" in response) {
@@ -101,12 +100,8 @@ export const cancelOrder = createAsyncThunk(
 export const completedOrder = createAsyncThunk(
   "orders/completedOrders",
   async (id: string, thunkApi) => {
-    const response: SuccessPayload | ErrorPayload = await new Promise(
-      (resolve) => {
-        resolve({
-          status: "success",
-        });
-      }
+    const response: SuccessPayload | ErrorPayload = await instance.patch(
+      `/api/orders/${id}/shipper/completed`
     );
 
     if ("message" in response) {

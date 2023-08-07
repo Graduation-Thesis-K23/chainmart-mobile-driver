@@ -21,6 +21,7 @@ import {
 import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
 import withAuth from "../../hocs/withAuth";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -85,6 +86,9 @@ const styles = StyleSheet.create({
 
 const OrdersShipping = () => {
   const [page, setPage] = useState(1);
+
+  console.log("OrdersShipping", page);
+
   const [showNumber, setShowNumber] = useState(-1);
 
   const dispatch = useAppDispatch();
@@ -95,16 +99,16 @@ const OrdersShipping = () => {
     status: item.status,
     address: `${item.address.street}, ${item.address.ward}, ${item.address.city}, ${item.address.district}`,
     totalPrice: convertPrice(
-      item.products.reduce(
-        (total, product) => total + product.price * product.quantity,
+      item.order_details.reduce(
+        (total, product) => total + product.product.price * product.quantity,
         0
       )
     ),
     phone: item.address.phone,
-    products: item.products.map((product) => ({
+    products: item.order_details.map((product) => ({
       id: product.id,
-      name: product.name,
-      price: convertPrice(product.price),
+      name: product.product.name,
+      price: convertPrice(product.product.price),
       quantity: product.quantity,
     })),
     started_date: new Date(item.started_date).toLocaleString("vi-VN", {
@@ -146,9 +150,15 @@ const OrdersShipping = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(fetchShippingOrders(page));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchShippingOrders(page));
+
+      return () => {
+        setPage(1);
+      };
+    }, [])
+  );
 
   if (status === ASYNC_STATUS.IDLE || status === ASYNC_STATUS.LOADING)
     <Indicator />;
@@ -290,7 +300,7 @@ const OrdersShipping = () => {
                         width: 20,
                       }}
                     >
-                      {index}
+                      {index + 1}
                     </Text>
                     <Text
                       style={{

@@ -17,6 +17,7 @@ import {
 import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
 import withAuth from "../../hocs/withAuth";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -63,6 +64,8 @@ const styles = StyleSheet.create({
 const OrdersWaiting = () => {
   const [page, setPage] = useState(1);
 
+  console.log("OrdersWaiting", page);
+
   const dispatch = useAppDispatch();
   const { data, status } = useAppSelector((state) => state.waiting);
 
@@ -71,8 +74,8 @@ const OrdersWaiting = () => {
     status: item.status,
     address: `${item.address.street}, ${item.address.ward}, ${item.address.city}, ${item.address.district}`,
     totalPrice: convertPrice(
-      item.products.reduce(
-        (total, product) => total + product.price * product.quantity,
+      item.order_details.reduce(
+        (total, product) => total + product.product.price * product.quantity,
         0
       )
     ),
@@ -101,9 +104,15 @@ const OrdersWaiting = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(fetchWaitingOrders(page));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchWaitingOrders(page));
+
+      return () => {
+        setPage(1);
+      };
+    }, [])
+  );
 
   if (status === ASYNC_STATUS.IDLE || status === ASYNC_STATUS.LOADING)
     <Indicator />;
