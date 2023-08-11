@@ -42,6 +42,7 @@ export const userSlide = createSlice({
     builder.addCase(signIn.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
       state.data = action.payload;
+      state.message = "";
     });
     builder.addCase(signIn.rejected, (state, action) => {
       state.status = ASYNC_STATUS.FAILED;
@@ -49,21 +50,23 @@ export const userSlide = createSlice({
     });
     builder.addCase(signIn.pending, (state) => {
       state.status = ASYNC_STATUS.LOADING;
+      state.message = "";
     });
     builder.addCase(checkToken.pending, (state) => {
       state.status = ASYNC_STATUS.LOADING;
+      state.message = "";
     });
     builder.addCase(checkToken.fulfilled, (state, action) => {
       state.status = ASYNC_STATUS.SUCCEED;
       state.data = action.payload;
     });
-    builder.addCase(checkToken.rejected, (state, action) => {
+    builder.addCase(checkToken.rejected, (state) => {
       state.status = ASYNC_STATUS.FAILED;
-      state.message = action.payload as string;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.data = {} as unknown as User;
       state.status = ASYNC_STATUS.IDLE;
+      state.message = "";
     });
   },
 });

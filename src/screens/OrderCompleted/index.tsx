@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import {
   ASYNC_STATUS,
@@ -10,6 +10,7 @@ import Indicator from "../../components/common/Indicator";
 import convertPrice from "../../helpers/convert-price";
 import withAuth from "../../hocs/withAuth";
 import { useFocusEffect } from "@react-navigation/native";
+import Empty from "../../components/Empty";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,12 +18,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    backgroundColor: "#ddd",
   },
   item: {
     backgroundColor: "#fff",
     boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
     marginTop: 10,
+    borderRadius: 10,
   },
   header: {
     flexDirection: "row",
@@ -132,6 +133,7 @@ const OrdersCompleted = () => {
         keyExtractor={(item) => item.id}
         onEndReached={handleLoadMore}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={<Empty text="No orders have been completed yet." />}
       />
     </View>
   );

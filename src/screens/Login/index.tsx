@@ -7,7 +7,7 @@ import {
   View,
   Image,
 } from "react-native";
-import logo from "../../assets/icon.png";
+import logo from "../../assets/logo.png";
 
 import Form from "./Form";
 import { ASYNC_STATUS, useAppSelector } from "../../redux";
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginTop: 40,
-    width: 200,
-    height: 66,
+    width: 187,
+    height: 60,
   },
 });
 

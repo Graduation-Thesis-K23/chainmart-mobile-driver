@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "prepare": "husky install",
     "prettier": "npx prettier -w \"**/*.tsx\" \"**/*.ts\" --no-error-on-unmatched-pattern",
-    "eslint": "eslint --cache --fix"
+    "eslint": "eslint --cache --fix",
+    "build": "npx eas build:run -p android"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",

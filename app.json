@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "Chainmart Driver",
-    "slug": "chainmart-mobile-driver",
+    "slug": "site-chainmart-driver",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/icon.png",
-      "resizeMode": "contain",
+      "image": "./icon.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
@@ -25,8 +25,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "2db810cf-dd00-4dd3-819b-617a67e50e5e"
+        "projectId": "d2e2bb0e-3d1b-412c-97ef-86dc6406dec4"
       }
-    }
+    },
+    "owner": "hiepnguyen6014"
   }
 }

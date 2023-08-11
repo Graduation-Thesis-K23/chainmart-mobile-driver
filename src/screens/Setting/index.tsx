@@ -1,13 +1,11 @@
 import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { useAppDispatch, logout, useAppSelector } from "../../redux";
+  useAppDispatch,
+  logout,
+  useAppSelector,
+  hideDrawer,
+} from "../../redux";
 import photo from "../../assets/user.jpg";
 
 const styles = StyleSheet.create({
@@ -37,9 +35,8 @@ const Setting = () => {
   const { data } = useAppSelector((state) => state.user);
 
   const handleLogout = async () => {
+    dispatch(hideDrawer());
     await dispatch(logout());
-
-    Alert.alert("Logout successfully");
   };
 
   return (
